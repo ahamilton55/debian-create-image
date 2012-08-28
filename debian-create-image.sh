@@ -196,7 +196,7 @@ CHK_PKGS="/tmp/check_pkgs.sh"
 cat >$MNT_PNT/$CHK_PKGS <<EOF
 for pkg in \`apt-cache pkgnames | sort\`; do 
     VERSION=\`aptitude show \$pkg | grep Version | awk '{print \$2}'\`; 
-    echo \"\$pkg \$VERSION\"; 
+    echo "\$pkg \$VERSION"; 
 done 
 EOF
 
