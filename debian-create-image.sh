@@ -96,7 +96,7 @@ if [[ -z $LOOPBACK ]]; then
     exit 2
 fi
 
-mkfs.ext3 $LOOPBACK
+mkfs.ext3 -L "/" $LOOPBACK
 
 # Mount it at some mount point
 if [[ -z $MNT_PNT ]]; then
