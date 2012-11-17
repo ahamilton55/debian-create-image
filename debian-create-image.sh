@@ -35,7 +35,7 @@
 # Directory used to store the disk image along with the kernel and ramdisk
 DIR="/root/debian_image/"
 # Which version of Debian to be installed
-SUITE="squeeze"
+SUITE="wheezy"
 # Architecture of the image to be created
 ARCH="amd64"
 # Name of the image that you are creating
@@ -168,12 +168,19 @@ sed -i '/exit 0/d' $MNT_PNT/etc/rc.local
 cat /tmp/new_rc.local >>$MNT_PNT/etc/rc.local
 
 ## Setup and install Euca2ools on the image
-chroot $MNT_PNT chroot /mnt/debian_image/ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C1240596
-cat >/mnt/debian_image/etc/apt/sources.list.d/euca2ools.list <<EOF
+chroot $MNT_PNT chroot apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C1240596
+cat >$MNT_PNT/etc/apt/sources.list.d/euca2ools.list <<EOF
 deb http://downloads.eucalyptus.com/software/euca2ools/2.1/ubuntu lucid main
 EOF
 chroot $MNT_PNT aptitude update
 chroot $MNT_PNT aptitude -y install euca2ools
+
+## Remove the SSH host keys so that the system shows up different upon each
+## boot. Currently cloud-init or the rc.local script will regenerate these.
+chroot $MNT_PNT rm /etc/ssh/ssh_host_rsa_key
+chroot $MNT_PNT rm /etc/ssh/ssh_host_rsa_key.pub
+chroot $MNT_PNT rm /etc/ssh/ssh_host_dsa_key
+chroot $MNT_PNT rm /etc/ssh/ssh_host_dsa_key.pub
 
 ## Reset the mirror back to the default Debian mirrors incase the mirror is only local
 cat >$MNT_PNT/etc/apt/sources.list <<EOF
