@@ -155,9 +155,7 @@ cat >$MNT_PNT/etc/fstab <<EOF
 # that works even if disks are added and removed. See fstab(5).
 #
 # <file system> <mount point>   <type>  <options>       <dump>  <pass>
-/dev/${BLK_DEV}1       /               ext3    defaults        0       1
-/dev/${BLK_DEV}2       /mnt            ext3    defaults        0       0
-/dev/${BLK_DEV}3       none            swap    sw              0       0
+LABEL=/       /               ext3    defaults        0       1
 
 proc            /proc           proc    defaults        0       0
 EOF
